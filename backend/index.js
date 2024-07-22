@@ -4,10 +4,10 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 const {Users}  = require('./db')
-// const {authMiddleware} = require('./middleware')
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = require('./config')
 const z = require("zod")
+const bcrypt = require("bcrypt")
 
 const signupSchema = z.object({
     firstName: z.string(),
@@ -31,6 +31,9 @@ app.post('/api/v1/signup', async(req, res) => {
         return
     }
 
+
+
+
     const existingUser = await Users.findOne({
         email: body.email
     })
@@ -40,7 +43,15 @@ app.post('/api/v1/signup', async(req, res) => {
             error: "Email already exist"
         })
     }else{
-        const newUser = await Users.create(body)
+        const {firstName, lastName, email, password} = body;
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        const newUser = await Users.create({
+            firstName,
+            lastName,
+            email,
+            password: hashedPassword
+        })
         res.json({
             message: "Signup Successful"
         })        
@@ -58,9 +69,19 @@ app.post("/api/v1/signin", async(req, res) => {
     }
 
     const user = await Users.findOne({
-        email: body.email,
-        password: body.password
+        email: body.email,        
     })
+
+    if(user){
+        const isPasswordValid = await bcrypt.compare(body.password, user.password)
+        if(!isPasswordValid){
+            res.status(411).json({
+                error: "Invalid password"
+            })
+            return
+        }     
+    }
+    
 
     if(user){
         const jwtToken = jwt.sign({
