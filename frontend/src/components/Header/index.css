@@ -11,9 +11,9 @@ button{
     padding: 4px 14px;
     
 }
-.login-btn{
+.header-login-btn{
     background-color: transparent;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 
 }
 
@@ -21,8 +21,14 @@ button{
     background-color: #0d0c22;
     color: white;
     border-radius: 25px;
-    margin-right: 20px;
+    /* margin-right: 20px;     */
     
+}
+.nav-link-container{
+    display: flex;
+    align-items: center;
+    width: 30vw;
+    justify-content: space-between;
 }
 
 .dropdown-btn{

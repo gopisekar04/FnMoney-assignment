@@ -29,8 +29,41 @@ const UserSchema = new mongoose.Schema({
 })
 
 
+const assessmentSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    description: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    githublink: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    publishlink: {
+        type: String,        
+        trim: true,
+    },
+    authorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true
+    },
+    publishedAt: {
+        type: Date,
+        default: Date.now
+    }
+})
+
 const Users = mongoose.model('Users', UserSchema);
+const Assessments = mongoose.model('Assessments', assessmentSchema);
 
 module.exports = {
-    Users
+    Users,
+    Assessments
 }

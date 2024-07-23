@@ -1,0 +1,21 @@
+.footer{
+    padding: 40px 0;    
+    background-color: black;
+}
+.footer-title{
+    color: #ffffff;
+    
+}
+.sm-icons{
+    margin: 10px 20px;
+}
+.insta:hover{
+    color: #E1306C;
+    
+}
+.fb:hover{
+    color: #4267B2;
+}
+.x:hover{
+    color: #ffffff;
+}
